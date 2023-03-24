@@ -119,4 +119,13 @@ function save() {
     let employeeStartDate = new Date(year, month, day);
 
     let employeeNotes = document.querySelector('#notes').value;
+
+    try {
+    let employeePayrollData = new EmployeePayrollData(employeeName, employeeProfileImage, employeeGender, employeeDepartment, employeeSalary, employeeStartDate, employeeNotes);
+    console.log(employeePayrollData.toString());
+    } catch (e) {
+     document.getElementById("button").innerHTML = err.message;
+    console.error(e);
+    alert("Please enter a valid date")
+}
 }
