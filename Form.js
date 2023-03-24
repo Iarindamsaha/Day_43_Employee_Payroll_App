@@ -23,7 +23,11 @@ class EmployeePayrollData {
     }
 
     set name(name) {
-        this._name = name;
+        let nameRegex = RegExp('^[A-Z]{1}[a-z]{3,}([ ])[A-Z]{1}[a-z]{2,}m,.$');
+        if (nameRegex.test(name))
+            this._name = name;
+        else
+            return "**** NAME is Incorrect ****";
     }
 
     get profileImage() {
@@ -39,9 +43,7 @@ class EmployeePayrollData {
     }
 
     set gender(gender) {
-
         this._gender = gender;
-
     }
 
     get department() {
@@ -57,8 +59,8 @@ class EmployeePayrollData {
     }
 
     set salary(salary) {
-
         this._salary = salary;
+
     }
 
     get startDate() {
@@ -66,7 +68,16 @@ class EmployeePayrollData {
     }
 
     set startDate(startDate) {
-        this._startDate = startDate;
+        let future = new Date();
+        future.setDate(future.getDate() + 30);
+        if (startDate < new Date() || startDate < future)
+        if(startDate<new Date())
+        {
+            this._startDate = startDate;
+        }
+        else{
+            return "**** START DATE is Incorrect ****";
+        }
     }
 
     get notes() {
@@ -77,7 +88,10 @@ class EmployeePayrollData {
         this._notes = notes;
     }
 
+
     toString() {
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const employeeDate = this.startDate == undefined ? "undefined" : this.startDate.toLocaleDateString("en-IN", options) ;
         return "Name = " + this.name + ", Profile Image = " + this.profileImage + ", Gender = " + this.gender + ", Department = " + this.department + ", Salary = " + this.salary + ", Start Date = " + employeeDate + ", Notes = " + this.notes;
     }
 }
@@ -116,16 +130,16 @@ function save() {
     let day = document.querySelector('#day').value;
     let month = document.querySelector('#month').value;
     let year = document.querySelector('#year').value;
-    let employeeStartDate = new Date(year, month, day);
+    let employeeStartDate = new Date(day, month, year);
 
     let employeeNotes = document.querySelector('#notes').value;
 
     try {
-    let employeePayrollData = new EmployeePayrollData(employeeName, employeeProfileImage, employeeGender, employeeDepartment, employeeSalary, employeeStartDate, employeeNotes);
-    console.log(employeePayrollData.toString());
+        let employeePayrollData = new EmployeePayrollData(employeeName, employeeProfileImage, employeeGender, employeeDepartment, employeeSalary, employeeStartDate, employeeNotes);
+        console.log(employeePayrollData.toString());
     } catch (e) {
-     document.getElementById("button").innerHTML = err.message;
-    console.error(e);
-    alert("Please enter a valid date")
-}
+        //document.getElementById("button").innerHTML = err.message;
+        console.error(e);
+        alert("Please enter a valid date")
+    }
 }
